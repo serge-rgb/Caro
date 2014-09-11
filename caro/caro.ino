@@ -237,7 +237,7 @@ void sine_fill() {
     for (y = 0; y < matrix.height(); y++) {
         for (x = 0; x < matrix.width(); x++) {
             int8_t value = pgm_read_byte(sinetab + (uint8_t)(x + 20*loopCount));
-            if (((255 * 0.5 * ((float)y/(float)matrix.height())) - 128) > (float)(0.5 * value - 30)) {
+            if (((255 * 0.5 * ((float)y/(float)matrix.height())) - 128) > (float)(0.25 * value) - 40) {
                 matrix.drawPixel(x, y, matrix.ColorHSV(3 * 500 * ((float)value / 128),255,128, /*gamma correct*/false));
             } else {
                 matrix.drawPixel(x, y, matrix.ColorHSV(3 * 160 * value,255,255, /*gamma correct*/false));

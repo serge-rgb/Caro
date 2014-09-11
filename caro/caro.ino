@@ -2,9 +2,7 @@
 #include <RGBmatrixPanel.h> // Hardware-specific library
 #include <avr/pgmspace.h>
 
-// If your 32x32 matrix has the SINGLE HEADER input,
-// use this pinout:
-#define CLK 8  // MUST be on PORTB! (Use pin 11 on Mega)
+#define CLK 8
 #define OE  9
 #define LAT 10
 #define A   A0
@@ -51,7 +49,6 @@ static const int8_t PROGMEM sinetab[256] = {
     -25, -22, -19, -16, -12,  -9,  -6,  -3
 };
 
-//const char msg1[] PROGMEM = "Te amo!!!";
 const char msg1[] PROGMEM = "Msg romantico";
 
 void setup() {
@@ -238,9 +235,9 @@ void sine_fill() {
     unsigned char x, y;
     long waveSpeed = loopCount * 10;
     for (y = 0; y < matrix.height(); y++) {
-    for (x = 0; x < matrix.width(); x++) {
-         int8_t value = pgm_read_byte(sinetab + (uint8_t)(x + 20*loopCount));
-            if (((255 * 0.5 * ((float)y/(float)matrix.height())) - 128) > (float)value) {
+        for (x = 0; x < matrix.width(); x++) {
+            int8_t value = pgm_read_byte(sinetab + (uint8_t)(x + 20*loopCount));
+            if (((255 * 0.5 * ((float)y/(float)matrix.height()))/*make it half-height: */ - 128) > (float)(value + 50)) {
                 matrix.drawPixel(x, y, matrix.ColorHSV(3 * 500 * ((float)value / 128),255,128, /*gamma correct*/false));
             } else {
                 matrix.drawPixel(x, y, matrix.ColorHSV(3 * 160 * value,255,255, /*gamma correct*/false));

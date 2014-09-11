@@ -51,8 +51,8 @@ static const int8_t PROGMEM sinetab[256] = {
     -25, -22, -19, -16, -12,  -9,  -6,  -3
 };
 
-const char msg1[] PROGMEM = "Te amo!!!";
-
+//const char msg1[] PROGMEM = "Te amo!!!";
+const char msg1[] PROGMEM = "Msg romantico";
 
 void setup() {
     matrix.begin();
@@ -250,13 +250,13 @@ void sine_fill() {
 }
 
 enum counts {
-    Count_plasma = 1,//50,
+    Count_plasma = 150,
     Count_black = Count_plasma + 3,
     Count_whitedown = Count_plasma + 30,
-    Count_text = Count_whitedown + 1,//50,
-    Count_wave = Count_text + 5,//0,
-    Count_waves = Count_wave + 4,//0,
-    Count_sea = Count_waves + 2,//5,
+    Count_text = Count_whitedown + 150,
+    Count_wave = Count_text + 50,
+    Count_waves = Count_wave + 40,
+    Count_sea = Count_waves + 25,
     Count_sine = Count_sea + 70,
     Count_end,
 };

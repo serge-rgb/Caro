@@ -237,7 +237,7 @@ void sine_fill() {
     for (y = 0; y < matrix.height(); y++) {
         for (x = 0; x < matrix.width(); x++) {
             int8_t value = pgm_read_byte(sinetab + (uint8_t)(x + 20*loopCount));
-            if (((255 * 0.5 * ((float)y/(float)matrix.height()))/*make it half-height: */ - 128) > (float)(value + 50)) {
+            if (((255 * 0.5 * ((float)y/(float)matrix.height())) - 128) > (float)(0.5 * value - 30)) {
                 matrix.drawPixel(x, y, matrix.ColorHSV(3 * 500 * ((float)value / 128),255,128, /*gamma correct*/false));
             } else {
                 matrix.drawPixel(x, y, matrix.ColorHSV(3 * 160 * value,255,255, /*gamma correct*/false));
@@ -250,7 +250,7 @@ enum counts {
     Count_plasma = 150,
     Count_black = Count_plasma + 3,
     Count_whitedown = Count_plasma + 30,
-    Count_text = Count_whitedown + 150,
+    Count_text = Count_whitedown + 170,
     Count_wave = Count_text + 50,
     Count_waves = Count_wave + 40,
     Count_sea = Count_waves + 25,

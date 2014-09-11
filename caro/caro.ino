@@ -150,7 +150,7 @@ void whitedown(long wd_start, long n_loops, long times) {
 
     for (y = 0; y < matrix.height(); y++) {
         for (x = 0; x < matrix.width(); x++) {
-            matrix.drawPixel(x, y, matrix.Color888(now,now,now, /*gamma correct*/true));
+            matrix.drawPixel(x, y, matrix.Color888(now,now,now, /*gamma correct*/false));
         }
     }
 }
@@ -189,7 +189,7 @@ void single_wave() {
             long value = waveSpeed
                 + (int8_t)pgm_read_byte(sinetab + r);
             uint8_t z = 0;
-            matrix.drawPixel(x, y, matrix.ColorHSV(3 * 230,255,value, /*gamma correct*/false));
+            matrix.drawPixel(x, y, matrix.ColorHSV(3 * 70,255,value, /*gamma correct*/false));
         }
     }
 }
@@ -229,14 +229,35 @@ void waves(char move_center) {
     matrix.fillCircle(25,0,7,matrix.ColorHSV(255,255,255,false));
 }
 
+//===============================================================================
+//  Sine
+//===============================================================================
+void sine_fill() {
+    int cx1 = 16;
+    int cy1 = 16;
+    unsigned char x, y;
+    long waveSpeed = loopCount * 10;
+    for (y = 0; y < matrix.height(); y++) {
+    for (x = 0; x < matrix.width(); x++) {
+         int8_t value = pgm_read_byte(sinetab + (uint8_t)(x + 20*loopCount));
+            if (((255 * 0.5 * ((float)y/(float)matrix.height())) - 128) > (float)value) {
+                matrix.drawPixel(x, y, matrix.ColorHSV(3 * 500 * ((float)value / 128),255,128, /*gamma correct*/false));
+            } else {
+                matrix.drawPixel(x, y, matrix.ColorHSV(3 * 160 * value,255,255, /*gamma correct*/false));
+            }
+        }
+    }
+}
+
 enum counts {
-    Count_plasma = 150,
+    Count_plasma = 1,//50,
     Count_black = Count_plasma + 3,
-    Count_whitedown = Count_plasma + 20,
-    Count_text = Count_whitedown + 150,
-    Count_wave = Count_text + 50,
-    Count_waves = Count_wave + 60,
-    Count_sea = Count_waves + 25,
+    Count_whitedown = Count_plasma + 30,
+    Count_text = Count_whitedown + 1,//50,
+    Count_wave = Count_text + 5,//0,
+    Count_waves = Count_wave + 4,//0,
+    Count_sea = Count_waves + 2,//5,
+    Count_sine = Count_sea + 70,
     Count_end,
 };
 
@@ -265,6 +286,8 @@ void loop() {
         waves(0);
     } else if (loopCount < Count_sea) {
         waves(1);
+    } else if (loopCount < Count_sine) {
+        sine_fill();
     } else {
         loopCount = 0;
     }
